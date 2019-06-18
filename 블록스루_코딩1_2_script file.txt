@@ -1,0 +1,18 @@
+function vote(tx) {
+    if (!tx.friendsAsset.votedOrNot) {
+        tx.validationAsset.confirmed = tx.validationAsset.confirmed + 1;
+        return getAssetRegistry('org.acme.voting.validation')
+            .then(function (assetRegistry) {
+                return assetRegistry.update(tx.validationAsset);
+            })
+            .then(function () {
+                return getAssetRegistry('org.acme.voting.friends')
+                    .then(function (assetRegistry) {
+                        tx.friendsAsset.votedOrNot = true;
+                        return assetRegistry.update(tx.friendsAsset);
+                    })
+            });
+    } else {
+        throw new Error('Vote already submitted!');
+    }
+}

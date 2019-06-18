@@ -1,0 +1,20 @@
+namespace org.acme.voting
+
+participant jobseeker identified by voterID {
+  o String voterID 
+}
+
+asset friends identified by voterID {
+  o String voterID
+  o Boolean votedOrNot
+}
+
+asset validation identified by career  {
+  o String career 
+  o Integer confirmed
+}
+
+transaction vote {
+  --> validation validationAsset
+  --> friends friendsAsset
+}
